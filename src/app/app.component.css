@@ -1,0 +1,75 @@
+.weather-app {
+  padding: 0rem 8rem;
+  display: flex;
+ 
+  justify-content: center;
+}
+
+.main {
+  font-family: "Space Grotesk", sans-serif;
+  /* border: red solid; */
+
+  /* background-image: url('C:\Users\hkanani\OneDrive - Advicent Solutions, LP\Desktop\images\04n.jpg');
+  background-repeat: no-repeat;
+  background-size: cover; */
+}
+.weather-data {
+  display: flex;
+  padding: 0 8rem;
+  text-align: center;
+  
+}
+
+.search-tab {
+  padding: 1.2rem 0;
+  display: flex;
+  justify-content: center;
+  background-color: #e7e5e5;
+}
+
+agm-map {
+  height: 300px;
+  width: 100%;
+}
+.weather-map {
+  display: flex;
+}
+/* mat-form-field.mat-form-field{
+  font-size: 20px;
+  color: #48484a;
+  text-decoration-color: white;
+
+} */
+
+.toolbar-class {
+  background-color: #48484b;
+  color: whitesmoke;
+}
+
+.weather-forecast {
+  /* border:red solid; */
+  padding: 10px 80px;
+  width: 100%;
+  /* border:red solid */
+  font-size: 18pt;
+  font-weight: 700;
+}
+.daily{
+  width: 100%;
+}
+@media only screen and (max-width: 600px) {
+  .weather-app {
+    display: flex;
+    flex-direction: column;
+  }
+  .weather-app .main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  agm-map {
+    /* padding: 0px 20px; */
+    height: 300px;
+    width: 100%;
+  }
+}
