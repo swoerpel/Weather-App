@@ -1,12 +1,18 @@
 .weather-app {
-  padding: 0rem 8rem;
+  /* padding: 0rem 6rem; */
   display: flex;
+  /* flex-wrap: wrap; */
  
   justify-content: center;
+  /* border: red solid; */
+  align-items: stretch;
 }
 
 .main {
   font-family: "Space Grotesk", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   /* border: red solid; */
 
   /* background-image: url('C:\Users\hkanani\OneDrive - Advicent Solutions, LP\Desktop\images\04n.jpg');
@@ -14,9 +20,10 @@
   background-size: cover; */
 }
 .weather-data {
-  display: flex;
-  padding: 0 8rem;
-  text-align: center;
+  /* display: flex; */
+  /* padding: 0 7rem;
+  text-align: center; */
+  /* border: red solid; */
   
 }
 
@@ -25,21 +32,15 @@
   display: flex;
   justify-content: center;
   background-color: #e7e5e5;
+  /* border: red solid; */
+  
 }
 
 agm-map {
-  height: 300px;
+  height: 230px;
   width: 100%;
 }
-.weather-map {
-  display: flex;
-}
-/* mat-form-field.mat-form-field{
-  font-size: 20px;
-  color: #48484a;
-  text-decoration-color: white;
 
-} */
 
 .toolbar-class {
   background-color: #48484b;
@@ -47,29 +48,60 @@ agm-map {
 }
 
 .weather-forecast {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* align-items: flex-start; */
+  border:red solid;
+  padding: 1rem 5rem;
+ 
   /* border:red solid; */
-  padding: 10px 80px;
-  width: 100%;
-  /* border:red solid */
   font-size: 18pt;
   font-weight: 700;
+ 
+}
+.hourly{
+ 
+  width: 600px;
+  /* padding-bottom: 2rem; */
+ 
+ /* border: black solid; */
+
+
 }
 .daily{
+  border :red solid;
   width: 100%;
 }
-@media only screen and (max-width: 600px) {
+
+
+
+
+@media only screen and (max-width: 768px) {
   .weather-app {
     display: flex;
     flex-direction: column;
+    border: red solid;
   }
-  .weather-app .main {
-    display: flex;
-    flex-direction: column;
-  }
+  
 
   agm-map {
     /* padding: 0px 20px; */
-    height: 300px;
+    height: 220px;
     width: 100%;
+    border: red solid;
   }
+  .weather-forecast{
+    /* display: flex; */
+    padding:0 0.5rem ;
+    align-items: center;
+    font-size: 14pt;
+    border: red solid;
+    justify-content: space-between;
+  }
+  .hourly{
+    max-width: 100%;
+    border: red solid;
+  }
+ 
 }

@@ -4,12 +4,13 @@ import {
   ElementRef,
   OnInit,
   Renderer2,
+  ɵpublishDefaultGlobalUtils,
 } from '@angular/core';
 import { WeatherApp } from './model/weather';
 import { WeatherServiceService } from './weather-service.service';
 import { FormControl, Validators } from '@angular/forms';
 import { Forecast } from './model/forecast';
-import { Chart, registerables } from 'chart.js';
+import Chart from 'chart.js/auto';
 
 
 
@@ -29,19 +30,20 @@ export class AppComponent implements OnInit, AfterViewInit {
   dailyForecast: Forecast[];
   hourlyForecast:[];
   email = new FormControl('', [Validators.required, Validators.email]);
-  showForecast:boolean= false;
-  chart:any
+  showForecast:boolean= true;
+  chart:Chart
 
   ngOnInit(): void {
     this.getCityWeather();
     this.getFiveDayForecast();
+    this.getDailyForecast();
   }
   constructor(
     private weatherService: WeatherServiceService,
     private elRef: ElementRef,
     private renderer: Renderer2
   ) {
-    Chart.register(...registerables);
+  
     //  if (confirm("Share Location")) {
     //   this.getLocation();
     // }
@@ -109,26 +111,87 @@ export class AppComponent implements OnInit, AfterViewInit {
       let weatherDates =[]
       allDates.forEach((element) => {
         let jsDate = new Date(element * 1000)
-        weatherDates.push(jsDate.toTimeString())
+        weatherDates.push(jsDate.toLocaleTimeString([],{hour:'numeric'}))
         
-      });
-     this.chart = new Chart('canvas',{
+      }); 
+     
+     this.chart = new Chart('myChart',{
        type: 'line',
+      
+    
+
+       
        data:{
+        
+        
+
          labels:weatherDates,
+        
          datasets:[
+          
+         
+
            {
+            
+            
+             label:'temp',
+             
+            
+
+
               data:temp,
-              borderColor: '#3cbanf',
-              fill:false
+              borderColor: 'red',
+             
+             pointBorderColor:'#1231e2',
+             borderWidth:0.7,
+          
+          hoverBorderWidth:20,
+         pointBackgroundColor:'white',
+         pointHoverBackgroundColor:'red',
+        pointRadius:2,
+      
+  
+     
+
+
+
+
+
+              // fill:false
            
            },
+
+           
           
          ]
+         
+         
        },
+       options: {
+       aspectRatio:2,
+     
+     
+        responsive:true,
+        plugins: {
+          
+         filler:{
+           drawTime:'beforeDatasetsDraw',
+        
+
+
+         },
+          
+          
+        }
+       }
       
        })
+      
+      //  newChart.destroy();
+      
     })
+    this.chart.destroy();
+    
   }
 
   setWeatherData(): Object {

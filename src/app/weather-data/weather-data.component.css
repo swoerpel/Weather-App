@@ -1,50 +1,47 @@
+.weather-card {
+  padding: 0 7rem;
+  text-align: center;
+  /* border: black solid; */
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
+  align-items: center;
+}
 
-
-.current-time{
+.current-time {
   color: #eb6e4b;
   font-size: 1rem;
+  /* border: red solid; */
 }
-.weather-location{
-  font-size: 3.0rem;
+.weather-location {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 0.2rem;
+  /* border: red solid; */
+}
+.weather-description {
+  font-size: 12pt;
+  font-weight: 300;
+}
+
+.weather-temp {
+  font-size: 7.5rem;
+
   font-weight: 900;
+  /* border: red solid; */
+}
+
+.feels-like {
+  font-size: 1rem;
   letter-spacing: 0.2rem;
 
+  color: #48484a;
+  font-weight: 700;
+  /* border: red solid; */
 }
-.weather-temp{
-  display: flex;
-  justify-content: center;
-  font-size: 7rem;
- 
-  font-weight: 900;
-  
-  
-}
+/* .detailed-description{
 
-.feels-like{
-  font-size: 15px;
- letter-spacing: 0.2rem;
- text-align: center;
- color: #48484a;
- font-weight: 700;
-
- 
-
- 
-  
- 
-}
-.weather-description{
-  display: flex;
-  justify-content: center;
- /* background-color:#e4e0e0; */
- background-size: 30%;
-}
-
-
-
-
-.detailed-description{
-  
+  align-self: flex-start;
  padding-left: 10pt;
   text-align: start;
   font-size: 14px;
@@ -55,44 +52,21 @@
 
 li{
   padding-right: 15pt;
-}
+} */
 
-
-@media only screen and (max-width:600px){
-  .weather-block{
-    display: flex;
-    flex-direction: column;
-    padding: 0 10px;
-
-  }
-  .weather-description{
-    font-size: 2.2rem;
-    letter-spacing: 0.2rem;
-   text-align: center;
-    /* border: red solid; */
-   
+@media only screen and (max-width: 768px) {
+  .current-time{
+    font-size: 0.7rem;
   }
   .weather-location{
-    font-size: 1.4rem;
-    /* line-height: 8.5rem; */
-    /* margin-bottom: 1rem; */
-    font-weight: 100;
-    letter-spacing: 0.2rem;
-    /* border: red solid; */
+    font-size: 1.5rem;
   }
   .weather-temp{
-    font-size: 8rem;
-   
-    font-weight: 400;
-    position: relative;
-    /* border: red solid; */
+    font-size: 5rem;
   }
-  .weather-temp::after{
-    content: '\00B0 C';
-    font-size: 3rem;
-    position: absolute;
-    top: 1.8rem;
-    left: 8.5rem;
-    /* border: red solid; */
+  .feels-like{
+    font-size: 0.7rem;
   }
-} 
+  
+  
+}

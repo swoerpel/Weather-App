@@ -1,15 +1,15 @@
 <mat-toolbar class="toolbar-class">
-  <button [mat-menu-trigger-for]="weatherMenu"
+  <button
+    [mat-menu-trigger-for]="weatherMenu"
     mat-icon-button
-    
     class="example-icon"
     aria-label="Example icon-button with menu icon"
   >
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu #weatherMenu>
-    <button mat-menu-item (click)="city ='tirana' ;onClick()">Weather</button>
-  <button mat-menu-item>Forecast</button>
+    <button mat-menu-item (click)="city = 'tirana'; onClick()">Weather</button>
+    <button mat-menu-item>Forecast</button>
   </mat-menu>
   <span>My App</span>
   <span class="example-spacer"></span>
@@ -29,7 +29,7 @@
   </button>
 </mat-toolbar>
 
-<mat-form-field class="search-tab" >
+<mat-form-field class="search-tab">
   <mat-label>Enter City.. </mat-label>
 
   <input
@@ -38,9 +38,8 @@
     type="search"
     [(ngModel)]="city"
     (keyup.enter)="onClick()"
-    
   />
- 
+
   <button matPrefix mat-icon-button (click)="onClick()">
     <mat-icon>search</mat-icon>
   </button>
@@ -53,19 +52,14 @@
   >
     <mat-icon>clear</mat-icon>
   </button>
-  
 </mat-form-field>
 
 <div class="weather-app">
   <div class="main">
-    <div class="weather-data" >
-
-      <app-weather-data
-        [weatherData]="setWeatherData()"
-      >
-      </app-weather-data>
+    <div class="weather-data">
+      <app-weather-data [weatherData]="setWeatherData()"> </app-weather-data>
     </div>
-    <div class="weather-map" >
+    <div class="weather-map">
       <agm-map
         (mapClick)="onChooseCity($event)"
         [latitude]="weather.coord.lat"
@@ -79,22 +73,25 @@
         </agm-marker>
       </agm-map>
     </div>
-   
   </div>
-<div class="weather-forecast" >5-Day Forecast
-  <button *ngIf="!showForecast" mat-button (click)="toggleForecast()">Show Forecast</button>
-  <button *ngIf="showForecast" mat-button (click)="toggleForecast()">Hide Forecast</button>
-<app-forecast-data *ngIf="showForecast"
-[weatherForecast]="dailyForecast">
-  
-   </app-forecast-data>
 
-   <div class="daily">
-    <canvas id='canvas'>{{ chart }}</canvas>
-
-   </div>
-</div>
-
+  <div class="weather-forecast">
+    <div class="hourly">
+      2-day forecast
+      <canvas id="myChart">{{ chart }}</canvas>
+    </div>
+    <div class="daily">
+      5-day forecast
+      <button *ngIf="!showForecast" mat-button (click)="toggleForecast()">
+        Show Forecast
+      </button>
+      <button *ngIf="showForecast" mat-button (click)="toggleForecast()">
+        Hide Forecast
+      </button>
+      <app-forecast-data *ngIf="showForecast" [weatherForecast]="dailyForecast">
+      </app-forecast-data>
+    </div>
+  </div>
 </div>
 
 <router-outlet></router-outlet>
