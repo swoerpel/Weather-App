@@ -1,0 +1,43 @@
+.weather-card {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+}
+
+.weather-date {
+  width: 20%;
+}
+.weather-description {
+  font-size: 9pt;
+  width: 30%;
+}
+.mat-title {
+  font-size: 12pt;
+}
+
+mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: none;
+}
+.expansion-description {
+  padding-left: 10pt;
+  text-align: start;
+  font-size: 14px;
+  list-style: none;
+  border-left: 1px #eb6e4b solid;
+}
+
+li {
+  padding-right: 15pt;
+}
+
+@media only screen and (max-width: 768px) {
+  .weather-card {
+    font-size: 8pt;
+    font-weight: 700;
+  }
+  .weather-description {
+    font-size: 6pt;
+    font-weight: 500;
+  }
+}
