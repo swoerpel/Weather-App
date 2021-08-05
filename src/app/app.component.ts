@@ -19,7 +19,7 @@ import Chart from 'chart.js/auto';
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'weather-app';
   weather: WeatherApp;
-  city: string = 'Oraiokastro';
+  city: string = 'Tirana';
   lat: number;
   lon: number;
   isVisibleMarker: boolean = false;
@@ -32,7 +32,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.getCityWeather();
     this.getDailyForecast();
-    this.getHourlyForecast();
   }
   constructor(
     private weatherService: WeatherServiceService,
@@ -65,17 +64,23 @@ export class AppComponent implements OnInit, AfterViewInit {
    
   }
 
-
+// update evrything when searching for a location
   onSearchClick() {
-    this.getCityWeather();
-    this.getDailyForecast();
-    this.getHourlyForecast();
+  this.getCityWeather();
+  
+  
   }
+  
   getCityWeather() {
     this.weatherService.weatherByCity(this.city).subscribe((val) => {
       this.weather = val;
       console.log(val);
+      this.lat = this.weather.coord.lat;
+      this.lon = this.weather.coord.lon;
+     this.getHourlyForecast();
+    this.getDailyForecast();
     });
+     
   }
 
 
@@ -98,7 +103,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   getDailyForecast() {
     this.weatherService
-      .forecastByCity(this.city)
+      .dailyForecastByCity(this.city)
 
       .subscribe((value) => {
         this.dailyForecast = this.FiveDayForecast(value);
@@ -106,7 +111,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       });
   }
   getHourlyForecast() {
-    this.weatherService.dailyForecast(this.lat, this.lon).subscribe((value) => {
+    this.weatherService.hourlyForecast(this.lat, this.lon).subscribe((value) => {
       let temp = value['hourly'].map((res) => res.temp);
       let allDates = value['hourly'].map((res) => res.dt);
       let weatherDates = [];

@@ -4,15 +4,15 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, } from 'rxjs/operators';
 import { WeatherApp } from './model/weather';
 import { Forecast } from './model/forecast';
-import { analyzeAndValidateNgModules, compileClassMetadata } from '@angular/compiler';
+
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherServiceService {
-  apiKey = "3848a49e980029d6bc35a7dbf936eb95";
+  apiKey = "772e2f1b9c6282930c277f80097bba03";
   weatherURL = 'http://api.openweathermap.org/data/2.5/weather?'
   forecastURL = 'http://api.openweathermap.org/data/2.5/forecast?'
-  dailyUrl = 'https://api.openweathermap.org/data/2.5/onecall?'
+  hourlyUrl = 'https://api.openweathermap.org/data/2.5/onecall?'
   weather: WeatherApp
 
 
@@ -36,7 +36,7 @@ export class WeatherServiceService {
           return resp
         }));
   }
-  forecastByCity(city: string): Observable<Forecast[]> {
+  dailyForecastByCity(city: string): Observable<Forecast[]> {
 
     return this.http.get(this.forecastURL + 'q=' + city + '&units=metric' + '&appid=' + this.apiKey)
       .pipe(
@@ -64,8 +64,8 @@ export class WeatherServiceService {
 
   //   return throwError(errorMessage)
   // }
-  dailyForecast(lat: number,lon:number) {
-  return this.http.get(this.dailyUrl + 'lat=' + lat + '&lon=' + lon +'&units=metric' +  '&exclude=current,minutely,daily' + '&appid=' + this.apiKey)
+  hourlyForecast(lat: number,lon:number) {
+  return this.http.get(this.hourlyUrl + 'lat=' + lat + '&lon=' + lon +'&units=metric' +  '&exclude=current,minutely,daily' + '&appid=' + this.apiKey)
   .pipe(
     map((resp)=>{
       return resp;
