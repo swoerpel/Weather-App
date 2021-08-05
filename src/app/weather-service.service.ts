@@ -9,7 +9,7 @@ import { Forecast } from './model/forecast';
   providedIn: 'root'
 })
 export class WeatherServiceService {
-  apiKey = "3848a49e980029d6bc35a7dbf936eb95";
+  apiKey = "772e2f1b9c6282930c277f80097bba03";
   weatherURL = 'http://api.openweathermap.org/data/2.5/weather?'
   forecastURL = 'http://api.openweathermap.org/data/2.5/forecast?'
   hourlyUrl = 'https://api.openweathermap.org/data/2.5/onecall?'
