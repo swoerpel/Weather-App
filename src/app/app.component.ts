@@ -98,7 +98,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   getDailyForecast() {
     this.weatherService
-      .forecastByCity(this.city)
+      .dailyForecastByCity(this.city)
 
       .subscribe((value) => {
         this.dailyForecast = this.FiveDayForecast(value);
@@ -106,7 +106,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       });
   }
   getHourlyForecast() {
-    this.weatherService.dailyForecast(this.lat, this.lon).subscribe((value) => {
+    this.weatherService.hourlyForecast(this.lat, this.lon).subscribe((value) => {
       let temp = value['hourly'].map((res) => res.temp);
       let allDates = value['hourly'].map((res) => res.dt);
       let weatherDates = [];
