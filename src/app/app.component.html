@@ -8,11 +8,12 @@
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu #weatherMenu>
-    <button mat-menu-item (click)="city = 'tirana'; onClick()">Weather</button>
+    <button mat-menu-item (click)="city = 'tirana'; onSearchClick()">Weather</button>
     <button mat-menu-item>Forecast</button>
   </mat-menu>
   <span>My App</span>
   <span class="example-spacer"></span>
+
   <button
     mat-icon-button
     class="example-icon favorite-icon"
@@ -37,10 +38,10 @@
     matInput
     type="search"
     [(ngModel)]="city"
-    (keyup.enter)="onClick()"
+    (keyup.enter)="onSearchClick()"
   />
 
-  <button matPrefix mat-icon-button (click)="onClick()">
+  <button matPrefix mat-icon-button (click)="onSearchClick()">
     <mat-icon>search</mat-icon>
   </button>
   <button
@@ -57,18 +58,18 @@
 <div class="weather-app">
   <div class="main">
     <div class="weather-data">
-      <app-weather-data [weatherData]="setWeatherData()"> </app-weather-data>
+      <app-weather-card [weatherData]="setWeatherData()"></app-weather-card>
     </div>
     <div class="weather-map">
       <agm-map
-        (mapClick)="onChooseCity($event)"
+        (mapClick)="onMapClick($event)"
         [latitude]="weather.coord.lat"
         [longitude]="weather.coord.lon"
       >
         <agm-marker
           [latitude]="weather.coord.lat"
           [longitude]="weather.coord.lon"
-          [visible]="isVisible"
+          [visible]="isVisibleMarker"
         >
         </agm-marker>
       </agm-map>
@@ -88,8 +89,8 @@
       <button *ngIf="showForecast" mat-button (click)="toggleForecast()">
         Hide Forecast
       </button>
-      <app-forecast-data *ngIf="showForecast" [weatherForecast]="dailyForecast">
-      </app-forecast-data>
+      <daily-forecast *ngIf="showForecast" [weatherForecast]="dailyForecast">
+      </daily-forecast>
     </div>
   </div>
 </div>

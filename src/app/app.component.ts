@@ -1,19 +1,15 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
   OnInit,
-  Renderer2,
-  ɵpublishDefaultGlobalUtils,
+ 
+ 
 } from '@angular/core';
 import { WeatherApp } from './model/weather';
 import { WeatherServiceService } from './weather-service.service';
 import { FormControl, Validators } from '@angular/forms';
 import { Forecast } from './model/forecast';
 import Chart from 'chart.js/auto';
-
-
-
 
 @Component({
   selector: 'app-root',
@@ -22,28 +18,26 @@ import Chart from 'chart.js/auto';
 })
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'weather-app';
-  weather: WeatherApp ;
+  weather: WeatherApp;
   city: string = 'Oraiokastro';
   lat: number;
   lon: number;
-  isVisible: boolean = false;
+  isVisibleMarker: boolean = false;
   dailyForecast: Forecast[];
-  hourlyForecast:[];
+  hourlyForecast: [];
   email = new FormControl('', [Validators.required, Validators.email]);
-  showForecast:boolean= true;
-  chart:Chart
+  showForecast: boolean = true;
+  chart: Chart;
 
   ngOnInit(): void {
     this.getCityWeather();
-    this.getFiveDayForecast();
     this.getDailyForecast();
+    this.getHourlyForecast();
   }
   constructor(
     private weatherService: WeatherServiceService,
-    private elRef: ElementRef,
-    private renderer: Renderer2
+   
   ) {
-  
     //  if (confirm("Share Location")) {
     //   this.getLocation();
     // }
@@ -53,17 +47,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {}
 
-  getCityWeather() {
-    this.weatherService.weatherByCity(this.city).subscribe((val) => {
-      this.weather = val;
-      console.log(val);
-    });
-  }
-  onClick() {
-    this.getCityWeather();
-    this.getFiveDayForecast();
-    this.getDailyForecast();
-  }
+  //Retrieve cordinates and display data for current location.
   location() {
     if ('geolocation' in navigator) {
       navigator.geolocation.watchPosition((success) => {
@@ -73,28 +57,46 @@ export class AppComponent implements OnInit, AfterViewInit {
           .weatherByLocation(this.lat, this.lon)
           .subscribe((data) => {
             this.weather = data;
-
           });
       });
+       this.getDailyForecast();
+       this.getHourlyForecast();
     }
-    this.getFiveDayForecast();
-    this.getDailyForecast();
+   
   }
-  onChooseCity(event) {
-    console.log(event);
-    this. lat = event.coords.lat;
-    this. lon = event.coords.lng;
-    this.weatherService.weatherByLocation(this.lat, this.lon).subscribe((data) => {
-      this.weather = data;
-      this.city = this.weather.name;
+
+
+  onSearchClick() {
+    this.getCityWeather();
+    this.getDailyForecast();
+    this.getHourlyForecast();
+  }
+  getCityWeather() {
+    this.weatherService.weatherByCity(this.city).subscribe((val) => {
+      this.weather = val;
+      console.log(val);
     });
-
-    this.isVisible = true;
-    this.getFiveDayForecast();
-    this.getDailyForecast();
   }
 
-  getFiveDayForecast() {
+
+  //Display the data of the city clicked in the map location.
+  onMapClick(event) {
+    console.log(event);
+    this.lat = event.coords.lat;
+    this.lon = event.coords.lng;
+    this.weatherService
+      .weatherByLocation(this.lat, this.lon)
+      .subscribe((data) => {
+        this.weather = data;
+        this.city = this.weather.name;
+      });
+
+    this.isVisibleMarker = true;
+    this.getDailyForecast();
+    this.getHourlyForecast();
+  }
+
+  getDailyForecast() {
     this.weatherService
       .forecastByCity(this.city)
 
@@ -103,95 +105,56 @@ export class AppComponent implements OnInit, AfterViewInit {
         console.log(this.dailyForecast);
       });
   }
-  getDailyForecast(){
-    this.weatherService.dailyForecast(this.lat,this.lon)
-    .subscribe(value => {
-      let temp = value['hourly'].map(res => res.temp)
-      let allDates = value['hourly'].map(res=> res.dt)
-      let weatherDates =[]
+  getHourlyForecast() {
+    this.weatherService.dailyForecast(this.lat, this.lon).subscribe((value) => {
+      let temp = value['hourly'].map((res) => res.temp);
+      let allDates = value['hourly'].map((res) => res.dt);
+      let weatherDates = [];
       allDates.forEach((element) => {
-        let jsDate = new Date(element * 1000)
-        weatherDates.push(jsDate.toLocaleTimeString([],{hour:'numeric'}))
-        
-      }); 
-     
-     this.chart = new Chart('myChart',{
-       type: 'line',
-      
-    
+        let jsDate = new Date(element * 1000);
+        weatherDates.push(jsDate.toLocaleTimeString([], { hour: 'numeric' }));
+      });
 
-       
-       data:{
-        
-        
+      this.chart = new Chart('myChart', {
+        type: 'line',
 
-         labels:weatherDates,
-        
-         datasets:[
-          
-         
+        data: {
+          labels: weatherDates,
 
-           {
-            
-            
-             label:'temp',
-             
-            
+          datasets: [
+            {
+              label: 'temp',
 
-
-              data:temp,
+              data: temp,
               borderColor: 'red',
-             
-             pointBorderColor:'#1231e2',
-             borderWidth:0.7,
-          
-          hoverBorderWidth:20,
-         pointBackgroundColor:'white',
-         pointHoverBackgroundColor:'red',
-        pointRadius:2,
-      
-  
-     
 
+              pointBorderColor: '#1231e2',
+              borderWidth: 0.7,
 
+              hoverBorderWidth: 20,
+              pointBackgroundColor: 'white',
+              pointHoverBackgroundColor: 'red',
+              pointRadius: 2,
 
+              
+            },
+          ],
+        },
+        options: {
+          aspectRatio: 2,
 
+          responsive: true,
+          plugins: {
+            filler: {
+              drawTime: 'beforeDatasetsDraw',
+            },
+          },
+        },
+      });
 
-              // fill:false
-           
-           },
-
-           
-          
-         ]
-         
-         
-       },
-       options: {
-       aspectRatio:2,
-     
-     
-        responsive:true,
-        plugins: {
-          
-         filler:{
-           drawTime:'beforeDatasetsDraw',
-        
-
-
-         },
-          
-          
-        }
-       }
-      
-       })
-      
       //  newChart.destroy();
-      
-    })
+    });
     this.chart.destroy();
-    
   }
 
   setWeatherData(): Object {
@@ -217,7 +180,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       description: this.weather.weather[0].description,
     };
   }
-
+//Provide only the data of the five different days.
   private FiveDayForecast(data: Forecast[]) {
     let weatherForecast: Forecast[] = [];
     for (let i = 0; i < data.length; i += 8) {
@@ -225,8 +188,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
     return weatherForecast;
   }
-  toggleForecast(){
+  
+  toggleForecast() {
     this.showForecast = !this.showForecast;
   }
-
 }
