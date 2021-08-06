@@ -1,15 +1,8 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
- 
- 
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { WeatherApp } from './model/weather';
 import { WeatherServiceService } from './weather-service.service';
 import { FormControl, Validators } from '@angular/forms';
 import { Forecast } from './model/forecast';
-import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-root',
@@ -27,16 +20,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   hourlyForecast: [];
   email = new FormControl('', [Validators.required, Validators.email]);
   showForecast: boolean = true;
-  chart: Chart;
 
   ngOnInit(): void {
     this.getCityWeather();
     this.getDailyForecast();
+    this.getHourlyForecast();
   }
-  constructor(
-    private weatherService: WeatherServiceService,
-   
-  ) {
+  constructor(private weatherService: WeatherServiceService) {
     //  if (confirm("Share Location")) {
     //   this.getLocation();
     // }
@@ -58,31 +48,26 @@ export class AppComponent implements OnInit, AfterViewInit {
             this.weather = data;
           });
       });
-       this.getDailyForecast();
-       this.getHourlyForecast();
+      this.getDailyForecast();
+      this.getHourlyForecast();
     }
-   
   }
 
-// update evrything when searching for a location
+  // update evrything when searching for a location
   onSearchClick() {
-  this.getCityWeather();
-  
-  
+    this.getCityWeather();
   }
-  
+
   getCityWeather() {
     this.weatherService.weatherByCity(this.city).subscribe((val) => {
       this.weather = val;
       console.log(val);
       this.lat = this.weather.coord.lat;
       this.lon = this.weather.coord.lon;
-     this.getHourlyForecast();
-    this.getDailyForecast();
+      this.getHourlyForecast();
+      this.getDailyForecast();
     });
-     
   }
-
 
   //Display the data of the city clicked in the map location.
   onMapClick(event) {
@@ -106,94 +91,23 @@ export class AppComponent implements OnInit, AfterViewInit {
       .dailyForecastByCity(this.city)
 
       .subscribe((value) => {
-        this.dailyForecast = this.FiveDayForecast(value);
+        this.dailyForecast = this.fiveDayForecast(value);
         console.log(this.dailyForecast);
       });
   }
   getHourlyForecast() {
-    this.weatherService.hourlyForecast(this.lat, this.lon).subscribe((value) => {
-      let temp = value['hourly'].map((res) => res.temp);
-      let allDates = value['hourly'].map((res) => res.dt);
-      let weatherDates = [];
-      allDates.forEach((element) => {
-        let jsDate = new Date(element * 1000);
-        weatherDates.push(jsDate.toLocaleTimeString([], { hour: 'numeric' }));
-      });
-
-      this.chart = new Chart('myChart', {
-        type: 'line',
-
-        data: {
-          labels: weatherDates,
-
-          datasets: [
-            {
-              label: 'temp',
-
-              data: temp,
-              borderColor: 'red',
-
-              pointBorderColor: '#1231e2',
-              borderWidth: 0.7,
-
-              hoverBorderWidth: 20,
-              pointBackgroundColor: 'white',
-              pointHoverBackgroundColor: 'red',
-              pointRadius: 2,
-
-              
-            },
-          ],
-        },
-        options: {
-          aspectRatio: 2,
-
-          responsive: true,
-          plugins: {
-            filler: {
-              drawTime: 'beforeDatasetsDraw',
-            },
-          },
-        },
-      });
-
-      //  newChart.destroy();
-    });
-    this.chart.destroy();
+    return this.weatherService.hourlyForecast(this.lat, this.lon);
   }
 
-  setWeatherData(): Object {
-    return {
-      name: this.weather.name,
-      country: this.weather.sys.country,
-      date: new Date(this.weather.dt * 1000).toLocaleDateString(),
-      sunrise: new Date(this.weather.sys.sunrise * 1000).toLocaleTimeString(
-        'en-US',
-        { timeZoneName: 'short' }
-      ),
-      sunset: new Date(this.weather.sys.sunset * 1000).toLocaleTimeString(
-        'en-US',
-        { timeZoneName: 'short' }
-      ),
-      humidity: this.weather.main.humidity,
-      pressure: this.weather.main.pressure,
-      temp: this.weather.main.temp.toFixed(0),
-      feels_like: this.weather.main.feels_like.toFixed(0),
-      temp_max: this.weather.main.temp_max.toFixed(0),
-      temp_min: this.weather.main.temp_min.toFixed(0),
-      icon: this.weather.weather[0].icon,
-      description: this.weather.weather[0].description,
-    };
-  }
-//Provide only the data of the five different days.
-  private FiveDayForecast(data: Forecast[]) {
+  //Provide only the data of the five different days.
+  private fiveDayForecast(data: Forecast[]) {
     let weatherForecast: Forecast[] = [];
     for (let i = 0; i < data.length; i += 8) {
       weatherForecast.push(data[i]);
     }
     return weatherForecast;
   }
-  
+
   toggleForecast() {
     this.showForecast = !this.showForecast;
   }

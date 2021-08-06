@@ -10,6 +10,7 @@ export  class WeatherCardComponent implements OnInit {
   weatherData
   now:string;
   degree:string="°C"
+  
 
   constructor() { 
     setInterval(()=>{
@@ -19,7 +20,7 @@ export  class WeatherCardComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  
   
 
 }

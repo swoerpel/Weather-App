@@ -41,7 +41,7 @@ agm-map {
 }
 .daily {
   border: red solid;
-  width: 100%;
+  width: 600px;
 }
 
 /* Mobile Version */
@@ -50,6 +50,10 @@ agm-map {
     display: flex;
     flex-direction: column;
     border: red solid;
+    
+  }
+  .main{
+    margin: 0;
   }
 
   agm-map {
@@ -67,5 +71,8 @@ agm-map {
   .hourly {
     max-width: 100%;
     border: red solid;
+  }
+  .daily{
+    width: 100%;
   }
 }
