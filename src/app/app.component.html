@@ -1,3 +1,4 @@
+
 <mat-toolbar class="toolbar-class">
   <button
     [mat-menu-trigger-for]="weatherMenu"
@@ -58,7 +59,7 @@
 <div class="weather-app">
   <div class="main">
     <div class="weather-data">
-      <app-weather-card [weatherData]="setWeatherData()"></app-weather-card>
+      <app-weather-card [weatherData]="weather"></app-weather-card>
     </div>
     <div class="weather-map">
       <agm-map
@@ -79,7 +80,8 @@
   <div class="weather-forecast">
     <div class="hourly">
       2-day forecast
-      <canvas id="myChart">{{ chart }}</canvas>
+      <app-hourly-forecast class="hourly" [$hourlyForecast]='getHourlyForecast()'></app-hourly-forecast>
+      <!-- <canvas id="myChart">{{ chart }}</canvas> -->
     </div>
     <div class="daily">
       5-day forecast

@@ -1,38 +1,35 @@
-<div>
+<div class="weather-card">
   <mat-accordion class="mat-accord">
-    <mat-expansion-panel *ngFor="let list of weatherForecast" >
-      <mat-expansion-panel-header  expandedHeight="25px" class="exp-panel">
-        <mat-panel-title class="weather-card">
-          <div class="weather-date">{{ list.dt_txt |date:'EE, MMM d'}}</div>
-          
-            <img
-              src="http://openweathermap.org/img/wn/{{list.weather[0].icon}}.png"
-              alt="image displayed"
-            />
-         
+    <mat-expansion-panel *ngFor="let list of weatherForecast">
+      <mat-expansion-panel-header expandedHeight="25px" class="exp-panel">
+        <mat-panel-title class="weather-title">
+          <div class="weather-date">{{ list.dt_txt | date: "EE, MMM d" }}</div>
+
+          <img
+            src="http://openweathermap.org/img/wn/{{
+              list.weather[0].icon
+            }}.png"
+            alt="image displayed"
+          />
+
           <div class="weather-temp">
-            
-            {{ list.main.temp |number:'1.0-0' }}{{ degree }}
+            {{ list.main.temp | number: "1.0-0" }}{{ degree }}
           </div>
-          <div class="weather-description">{{ list.weather[0].description }}</div>
+          <div class="weather-description">
+            {{ list.weather[0].description }}
+          </div>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <ul class="expansion-description">
-        <div>
-          <p>Feels Like:{{list.main.feels_like}} </p>
-          <p>{{list.weather[0].description}}</p>
-        </div>
-        <li>Sunrise: {{list.main.temp}}</li>
-       <li >Sunset: </li>
-       <li>High: {{degree}}</li>
-       
-         
-      
- 
-      
-     </ul>
-
-      
+        <li>
+          Feels Like: {{ list.main.feels_like | number: "1.0-0" }}{{ degree }}
+        </li>
+        <li>Humidity: {{ list.main.humidity }} hPa</li>
+        <li>Cloudiness: {{ list.clouds.all }}%</li>
+        <li>Probability of precipitation: {{ list.pop | percent }}</li>
+        <li>Sea-level pressure: {{ list.main.sea_level }} hPa</li>
+        <li>Ground-level pressure: {{ list.main.grnd_level }} hPa</li>
+      </ul>
     </mat-expansion-panel>
   </mat-accordion>
 </div>

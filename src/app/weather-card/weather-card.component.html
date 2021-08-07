@@ -1,30 +1,23 @@
-    
 <div class="weather-card">
-   
-      <span class="current-time">{{weatherData.date|date}}, {{now}}</span>
-      <div class="weather-location">{{weatherData.name}},{{weatherData.country}}</div>
-    
- 
-      <img src="http://openweathermap.org/img/wn/{{weatherData.icon}}.png" alt="{{weatherData.description}}">
-      <div class="weather-description">{{weatherData.description}}</div>
-     
- 
-     <div class="weather-temp"> {{weatherData.temp}}{{degree}}</div>
-    <div class="feels-like">Feels like:{{weatherData.feels_like}}{{degree}}</div>
-    <!-- <ul class="detailed-description">
-       <li>Sunrise: {{weatherData.sunrise}}</li>
-      <li >Sunset: {{weatherData.sunset}}</li>
-      <li>High: {{weatherData.temp_max}}{{degree}}</li>
-      <li>Low: {{weatherData.temp_min}}{{degree}}</li>
-      <li>Humidity: {{weatherData.humidity}}%</li>
-     
-        
-     
+  <span class="current-time"
+    >{{ weatherData.dt * 1000 | date }}, {{ now }}</span
+  >
+  <div class="weather-location">
+    {{ weatherData.name }},{{ weatherData.sys.country }}
+  </div>
 
-     
-    </ul> -->
-   
+  <img
+    src="http://openweathermap.org/img/wn/{{ weatherData.weather[0].icon }}.png"
+    alt="{{ weatherData.weather[0].description }}"
+  />
+  <div class="weather-description">
+    {{ weatherData.weather[0].description }}
+  </div>
 
-  
+  <div class="weather-temp">
+    {{ weatherData.main.temp | number: "1.0-0" }}{{ degree }}
+  </div>
+  <div class="feels-like">
+    Feels like:{{ weatherData.main.feels_like | number: "1.0-0" }}{{ degree }}
+  </div>
 </div>
-
