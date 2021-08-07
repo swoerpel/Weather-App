@@ -45,4 +45,4 @@ testem.log
 Thumbs.db
 
 #Api-Key
-assets/api-key.ts
+assets/api-key
