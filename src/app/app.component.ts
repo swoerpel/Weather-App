@@ -20,6 +20,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   hourlyForecast: [];
   email = new FormControl('', [Validators.required, Validators.email]);
   showForecast: boolean = true;
+  degree:string = '°C'
+  units:string = 'metric'
 
   ngOnInit(): void {
     this.getCityWeather();
@@ -110,5 +112,19 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   toggleForecast() {
     this.showForecast = !this.showForecast;
+  }
+  toFarhenheit(){
+    this.degree = '°F';
+    this.weatherService.units = 'imperial'
+    this.getCityWeather();
+    this.getDailyForecast();
+    this.getHourlyForecast();
+  }
+  toCelcius(){
+    this.degree = '°C';
+    this.weatherService.units = 'metric'
+    this.getCityWeather();
+    this.getDailyForecast();
+    this.getHourlyForecast();
   }
 }

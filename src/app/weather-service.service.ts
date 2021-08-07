@@ -4,25 +4,28 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, } from 'rxjs/operators';
 import { WeatherApp } from './model/weather';
 import { Forecast } from './model/forecast';
+import { weatherApi } from 'src/assets/api-key';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherServiceService {
-  apiKey = "772e2f1b9c6282930c277f80097bba03";
+  apiKey:string = weatherApi();
   weatherURL = 'http://api.openweathermap.org/data/2.5/weather?'
   forecastURL = 'http://api.openweathermap.org/data/2.5/forecast?'
   hourlyUrl = 'https://api.openweathermap.org/data/2.5/onecall?'
   weather: WeatherApp
+  units:string = 'metric'
 
 
   constructor(private http: HttpClient) {
 
 
 
+
   }
   weatherByCity(city: string) {
-    return this.http.get(this.weatherURL + 'q=' + city + '&units=metric' + '&appid=' + this.apiKey)
+    return this.http.get(this.weatherURL + 'q=' + city + '&units='+ this.units + '&appid=' + this.apiKey)
       .pipe(
         map((resp: WeatherApp) => {
           return resp;
@@ -30,7 +33,7 @@ export class WeatherServiceService {
         }))
   }
   weatherByLocation(lat: number, lon: number) {
-    return this.http.get('http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon +'&units=metric' + '&appid=' + this.apiKey)
+    return this.http.get('http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon +'&units='+ this.units + '&appid=' + this.apiKey)
       .pipe(
         map((resp: WeatherApp) => {
           return resp
@@ -38,7 +41,7 @@ export class WeatherServiceService {
   }
   dailyForecastByCity(city: string): Observable<Forecast[]> {
 
-    return this.http.get(this.forecastURL + 'q=' + city + '&units=metric' + '&appid=' + this.apiKey)
+    return this.http.get(this.forecastURL + 'q=' + city + '&units=' + this.units + '&appid=' + this.apiKey)
       .pipe(
         map((resp) => {
           return resp['list'];
@@ -65,7 +68,8 @@ export class WeatherServiceService {
   //   return throwError(errorMessage)
   // }
   hourlyForecast(lat: number,lon:number) {
-  return this.http.get(this.hourlyUrl + 'lat=' + lat + '&lon=' + lon +'&units=metric' +  '&exclude=current,minutely,daily' + '&appid=' + this.apiKey)
+  return this.http.get(this.hourlyUrl + 'lat=' + lat + '&lon=' + lon + '&units=' + this.units + 
+   '&exclude=current,minutely,daily' + '&appid=' + this.apiKey)
   .pipe(
     map((resp)=>{
       return resp;

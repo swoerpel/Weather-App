@@ -9,7 +9,8 @@ export  class WeatherCardComponent implements OnInit {
   @Input()
   weatherData
   now:string;
-  degree:string="°C"
+  @Input()
+  degree
   
 
   constructor() { 

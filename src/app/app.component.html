@@ -31,7 +31,8 @@
   </button>
 </mat-toolbar>
 
-<mat-form-field class="search-tab">
+<div>
+  <mat-form-field class="search-tab">
   <mat-label>Enter City.. </mat-label>
 
   <input
@@ -55,11 +56,18 @@
     <mat-icon>clear</mat-icon>
   </button>
 </mat-form-field>
+<button *ngIf="degree==='°C'" mat-stroked-button color='accent' (click)='toFarhenheit()'>°F</button>
+<button *ngIf="degree==='°F'" mat-stroked-button color='accent' (click)='toCelcius()'>°C</button>
+</div>
+
 
 <div class="weather-app">
   <div class="main">
     <div class="weather-data">
-      <app-weather-card [weatherData]="weather"></app-weather-card>
+      <app-weather-card
+       [weatherData]="weather"
+       [degree]='degree'
+      ></app-weather-card>
     </div>
     <div class="weather-map">
       <agm-map
@@ -91,7 +99,11 @@
       <button *ngIf="showForecast" mat-button (click)="toggleForecast()">
         Hide Forecast
       </button>
-      <daily-forecast *ngIf="showForecast" [weatherForecast]="dailyForecast">
+      <daily-forecast *ngIf="showForecast" 
+      [weatherForecast]="dailyForecast"
+       [degree]='degree'
+      >
+     
       </daily-forecast>
     </div>
   </div>
