@@ -19,14 +19,13 @@ import { MatToolbarModule} from '@angular/material/toolbar';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {CdkAccordionModule} from '@angular/cdk/accordion';
 import {MatMenuModule} from '@angular/material/menu';
-import { HourlyForecastComponent } from './hourly-forecast/hourly-forecast.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     WeatherCardComponent,
     DailyForecastComponent,
-    HourlyForecastComponent,
    
   ],
   imports: [

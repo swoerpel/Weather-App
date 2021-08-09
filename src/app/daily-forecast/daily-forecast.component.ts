@@ -9,7 +9,8 @@ import { Forecast } from '../model/forecast';
 export class DailyForecastComponent implements OnInit {
   @Input()
   weatherForecast:Forecast[];
-  degree:string="°C"
+  @Input()
+  degree
 
   ngOnInit(): void {
    
