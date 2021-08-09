@@ -1,15 +1,16 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {  Component, OnDestroy, OnInit } from '@angular/core';
 import { WeatherApp } from './model/weather';
 import { WeatherServiceService } from './weather-service.service';
-import { FormControl, Validators } from '@angular/forms';
+
 import { Forecast } from './model/forecast';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit,OnDestroy {
   title = 'weather-app';
   weather: WeatherApp;
   city: string = 'Tirana';
@@ -18,12 +19,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   isVisibleMarker: boolean = false;
   dailyForecast: Forecast[];
   hourlyForecast: [];
-  email = new FormControl('', [Validators.required, Validators.email]);
   showForecast: boolean = true;
-  degree:string = '°C'
-  units:string = 'metric'
+  degree:string = '°C';
+  units:string = 'metric';
+  chart:Chart;
 
   ngOnInit(): void {
+   
     this.getCityWeather();
     this.getDailyForecast();
     this.getHourlyForecast();
@@ -35,6 +37,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     // else{
     //   this.getWeatherData();
     // }
+  }
+  ngOnDestroy(): void {
+    
   }
   ngAfterViewInit(): void {}
 
@@ -98,7 +103,57 @@ export class AppComponent implements OnInit, AfterViewInit {
       });
   }
   getHourlyForecast() {
-    return this.weatherService.hourlyForecast(this.lat, this.lon);
+    this.weatherService.hourlyForecast(this.lat, this.lon)
+    .subscribe((value) => {
+      let temp = value['hourly'].map((res) => res.temp);
+      let allDates = value['hourly'].map((res) => res.dt);
+      let weatherDates = [];
+      allDates.forEach((element) => {
+        let jsDate = new Date(element * 1000);
+        weatherDates.push(jsDate.toLocaleTimeString([], { hour: 'numeric' }));
+      });
+
+      this.chart = new Chart('myChart', {
+        type: 'line',
+
+        data: {
+          labels: weatherDates,
+
+          datasets: [
+            {
+              label: 'temp',
+
+              data: temp,
+              borderColor: 'red',
+
+              pointBorderColor: '#1231e2',
+              borderWidth: 0.7,
+
+              hoverBorderWidth: 20,
+              pointBackgroundColor: 'white',
+              pointHoverBackgroundColor: 'red',
+              pointRadius: 2,
+
+              
+            },
+          ],
+        },
+        options: {
+          aspectRatio: 2,
+
+          responsive: true,
+          plugins: {
+            filler: {
+              drawTime: 'beforeDatasetsDraw',
+            },
+          },
+        },
+      });
+
+    
+    });
+    this.chart.destroy();
+  
   }
 
   //Provide only the data of the five different days.

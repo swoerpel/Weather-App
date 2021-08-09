@@ -1,3 +1,3 @@
 export function weatherApi():string{
-    return '772e2f1b9c6282930c277f80097bba03';
+    return '3848a49e980029d6bc35a7dbf936eb95';
 }
